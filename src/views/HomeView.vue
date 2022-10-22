@@ -7,7 +7,7 @@
             class="text-caption font-weight-thin">-Vincent Van
             Gogh 🌟</span></p>
         <p class="text-h3 font-weight-black mb-5">There's only one art, knowledge.</p>
-        <p class="text-subtitle-1"> Test your art knowledge and prove how cultured you are by taking
+        <p class="text-sm-subtitle-1 text-caption"> Test your art knowledge and prove how cultured you are by taking
           <img src="../assets/artemind-logo.svg" alt="" class="">. Test yourself on a range of subjects from music to
           visual arts to its artists. And best of all; get ready for an amazing art knowledge experience. Are you a
           connoisseur? or are you just not sure?</p>
@@ -35,8 +35,13 @@
                 <v-toolbar-title>🌟 More Information</v-toolbar-title>
               </v-toolbar>
               <div class="d-flex justify-center align-center h-screen flex-wrap overflow-auto">
-                <v-card v-for="mech in mechs" :key="mechs.desc" :text="mech.desc" height="200" color="white"
-                  class="d-flex align-center justify-center ma-2 text-h5" :prepend-icon="mech.icon">
+                <v-card v-for="mech in mechs" :key="mechs.desc"  height="200" color="black"
+                  class=" text-h5 pa-2 pa-md-5 ma-2 d-flex align-center justify-center flex-column" >
+                  <v-card variant="outlined" color="cyan" class="d-flex align-center justify-center flex-column pa-md-4 text-center pa-2">
+                    <v-icon :icon="mech.icon" size="x-large" color="white"></v-icon>
+                  <p>{{ mech.desc }}</p>
+                  </v-card>
+                  
                 </v-card>
               </div>
             </v-card>
@@ -84,6 +89,11 @@
       desc: 'Scores will only add up on correct answers',
       icon: 'mdi-checkbox-marked-circle'
     },
+    {
+      desc: 'If correct, the question box will light green. Otherwise, it will be red.',
+      icon: 'mdi-checkbox-marked-circle'
+    },
+
 
   ])
 
