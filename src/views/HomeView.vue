@@ -11,15 +11,16 @@
           <img src="../assets/artemind-logo.svg" alt="" class="">. Test yourself on a range of subjects from music to
           visual arts to its artists. And best of all; get ready for an amazing art knowledge experience. Are you a
           connoisseur? or are you just not sure?</p>
-        <p class="text-subtitle-2 mt-5 font-italic text-cyan">Be sure to read the '<span class="text-white">more info</span>'  before playing!</p>
+        <p class="text-subtitle-2 mt-5 font-italic text-cyan">Be sure to read the '<span class="text-white">more
+            info</span>' before playing!</p>
         <div class="d-flex justify-center mt-2">
 
           <v-btn prepend-icon="mdi-palette" variant="outlined" size="large" class="mr-4" :loading="loading[1]"
-            :disabled="loading[1]" @click="load(1)" >
+            :disabled="loading[1]" @click="load(1)">
             Play Now
           </v-btn>
-          
-          <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition" >
+
+          <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
             <template v-slot:activator="{ on, attrs }">
               <v-btn v-bind="attrs" @click.stop="dialog = true" prepend-icon="mdi-information" variant="tonal"
                 size="large" color="white">
@@ -34,7 +35,8 @@
                 <v-toolbar-title>🌟 More Information</v-toolbar-title>
               </v-toolbar>
               <div class="d-flex justify-center align-center h-screen flex-wrap overflow-auto">
-                <v-card v-for="mech in mechs" :key="mechs.desc" :text="mech.desc" height="200" color="white" class="d-flex align-center justify-center ma-2 text-h5" :prepend-icon="mech.icon">
+                <v-card v-for="mech in mechs" :key="mechs.desc" :text="mech.desc" height="200" color="white"
+                  class="d-flex align-center justify-center ma-2 text-h5" :prepend-icon="mech.icon">
                 </v-card>
               </div>
             </v-card>
@@ -58,33 +60,32 @@
   const loading = ref([]);
   const router = useRouter();
   const dialog = ref(false);
-  const mechs = ref([
-        {
-            desc: 'Everything about Art',
-            icon: 'mdi-palette'
-        },
-        {
-            desc: '10 Randomly Generated Questions',
-            icon: 'mdi-chat-question'
-        },
-        {
-            desc: 'Easy, Medium, Hard',
-            icon: 'mdi-gamepad-circle'
-        },
-        {
-            desc: '10 Seconds per Question',
-            icon: 'mdi-clock-time-eight'
-        },
-        {
-            desc: 'Quiz will end if not answered within time frame',
-            icon: 'mdi-lastpass'
-        },
-        {
-            desc: 'Scores will only add up on correct answers',
-            icon: 'mdi-checkbox-marked-circle'
-        },
+  const mechs = ref([{
+      desc: 'Everything about Art',
+      icon: 'mdi-palette'
+    },
+    {
+      desc: '10 Randomly Generated Questions',
+      icon: 'mdi-chat-question'
+    },
+    {
+      desc: 'Easy, Medium, Hard',
+      icon: 'mdi-gamepad-circle'
+    },
+    {
+      desc: '10 Seconds per Question',
+      icon: 'mdi-clock-time-eight'
+    },
+    {
+      desc: 'Quiz will end if not answered within time frame',
+      icon: 'mdi-lastpass'
+    },
+    {
+      desc: 'Scores will only add up on correct answers',
+      icon: 'mdi-checkbox-marked-circle'
+    },
 
-    ])
+  ])
 
   function load(i) {
     loading.value[i] = true;

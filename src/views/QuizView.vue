@@ -3,13 +3,6 @@
 
         <QuizEnd v-if="endofQuiz" :percent="percentageScore" @restartQuiz='onQuizRestart' />
 
-        <!-- <v-snackbar v-model="snackbar" timeout="1000" :color="barColor">
-            <v-card variant="outlined" class="pa-3 ma-1 text-center" color="yellow">
-               <p class="text-md-h5"></p> {{ result }} 🌟
-            </v-card>
-
-        </v-snackbar> -->
-
         <div class="d-flex justify-center align-center text-center text-white flex-column pt-9">
             <v-col cols="12" sm="11" md="10" lg="10" class="d-flex justify-center flex-column">
                 <v-card class="px-3 px-md-8 py-5" variant="outlined" color="white">
@@ -66,24 +59,18 @@
                                             </div>
                                         </v-card>
                                     </template>
-
                                 </v-hover>
-
                             </v-col>
-                            
                         </v-row>
-                        <p class="text-center text-caption">Answer the Questions within the time frame or the quiz will end.</p>
+                        <p class="text-center text-caption">Answer the Questions within the time frame or the quiz will
+                            end.</p>
                     </div>
                 </v-card>
-
             </v-col>
         </div>
-
-
     </div>
-
-
 </template>
+
 <script setup>
     import axios from 'axios';
     import {
@@ -93,7 +80,6 @@
     } from 'vue';
     import QuizEnd from '../components/QuizEnd.vue';
 
-    //const apiInfos = ref([]);
     let timer = ref(100);
     let canClick = true; // to select only one choice
     let questionCounter = ref(0); // to count the questions given
@@ -101,9 +87,6 @@
     let endofQuiz = ref(false);
     let percentageScore = ref(0);
 
-    // const result = ref('');
-    // const snackbar = ref(false);
-    // const barColor = ref('');
     const choiceColor = ref('');
 
     const currentQuestion = ref({
@@ -151,29 +134,20 @@
     const onOptionClicked = (choice, item) => {
 
         if (canClick) {
-            //const divContainer = itemsRef[item];
             const optionID = item + 1;
             if (currentQuestion.value.answer == optionID) {
                 console.log("---CORRECT");
                 choiceColor.value = 'green';
                 score.value += 10;
-
-                //console.log(divContainer);
-                //divContainer.classList.add("bg-green");
-                //divContainer.classList.remove("bg-white");
             } else {
                 console.log("---INCORRECT")
                 choiceColor.value = 'red';
-                //console.log(divContainer);
-                //divContainer.classList.add("bg-red");
-                //divContainer.classList.remove("bg-white");
             }
 
             timer.value = 100;
             canClick = false;
 
             clearSelected();
-            //loadQuestion();
             //console.log(choice, item);
         } else {
             console.log("Can't Select Question")
@@ -188,22 +162,12 @@
                 timer.value--;
             } else {
                 if (questionCounter > 10) {
-                    //endofQuiz.value = true;
-                    // result.value = 'You missed the question! Quiz Ended!';
-                    // barColor.value = 'black';
-                    // snackbar.value = true;
                     onQuizEnd();
                 } else {
-                    //console.log("timer is up");
                     onQuizEnd();
-                    // loadQuestion();
-                    //countDownTimer();
                     clearInterval(interVal);
                 }
-
-
             }
-
         }, 100)
     }
 
@@ -266,8 +230,6 @@
 
 
     onMounted(() => {
-        //loadQuestion();
-        //countDownTimer();
         fetchQuestionFromServer();
     });
 

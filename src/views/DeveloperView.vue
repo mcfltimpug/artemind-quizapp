@@ -19,18 +19,12 @@
                     </v-card>
                     <v-expansion-panels>
                         <v-expansion-panel v-for="tech in techs" :key="techs.title" :title="tech.title"
-                            :text="tech.desc" color="black" class="mb-2" >
+                            :text="tech.desc" color="black" class="mb-2">
                         </v-expansion-panel>
                     </v-expansion-panels>
-
-
                 </div>
             </v-col>
         </div>
-
-
-
-
     </div>
 </template>
 <script setup>
