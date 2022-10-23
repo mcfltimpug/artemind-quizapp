@@ -1,8 +1,8 @@
 <template>
   <div class="screen-bg">
 
-    <div class="d-flex justify-start align-center text-center text-white flex-column pt-md-16">
-      <v-col cols="12" sm="9" md="8" lg="7" class="d-flex justify-md-center justify-start pt-16 flex-column pt-md-16">
+    <div class="d-flex justify-start align-center text-center text-white flex-column pt-md-16 h-screen pt-16">
+      <v-col cols="12" sm="9" md="8" lg="7" class="d-flex justify-md-center justify-start pt-16 justify-sm-center pt-md-16 flex-column ">
         <p class="font-italic text-cyan">"Go out and paint the stars." <span
             class="text-caption font-weight-thin">-Vincent Van
             Gogh 🌟</span></p>
@@ -13,9 +13,9 @@
           connoisseur? or are you just not sure?</p>
         <p class="text-subtitle-2 mt-5 font-italic text-cyan">Be sure to read the '<span class="text-white">more
             info</span>' before playing!</p>
-        <div class="d-flex justify-center mt-2">
+        <div class="d-flex justify-center mt-2 flex-column flex-sm-row">
 
-          <v-btn prepend-icon="mdi-palette" variant="outlined" size="large" class="mr-4" :loading="loading[1]"
+          <v-btn prepend-icon="mdi-palette" variant="outlined" size="x-large" class="mr-sm-4 mb-3" :loading="loading[1]"
             :disabled="loading[1]" @click="load(1)">
             Play Now
           </v-btn>
@@ -23,7 +23,7 @@
           <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
             <template v-slot:activator="{ on, attrs }">
               <v-btn v-bind="attrs" @click.stop="dialog = true" prepend-icon="mdi-information" variant="tonal"
-                size="large" color="white">
+                size="x-large" color="white">
                 More Info
               </v-btn>
             </template>
