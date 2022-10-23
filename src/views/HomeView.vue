@@ -54,8 +54,7 @@
 
 <script setup>
   import {
-    ref,
-    onMounted
+    ref
   } from 'vue';
 
   import {

@@ -1,7 +1,7 @@
 <template>
     <div class="screen-bg">
 
-        <QuizEnd v-if="endofQuiz" :percent="percentageScore" @restartQuiz='onQuizRestart' />
+        <QuizEnd v-if="endofQuiz" :percent="overallScore" @restartQuiz='onQuizRestart' />
 
         <div class="d-flex justify-center align-center text-center text-white flex-column pt-9">
             <v-col cols="12" sm="11" md="10" lg="10" class="d-flex justify-center flex-column">
@@ -81,11 +81,11 @@
     import QuizEnd from '../components/QuizEnd.vue';
 
     let timer = ref(100);
-    let canClick = true; // to select only one choice
-    let questionCounter = ref(0); // to count the questions given
-    let score = ref(0); // to see points
+    let oneClick = true; 
+    let questionCounter = ref(0); 
+    let score = ref(0); 
     let endofQuiz = ref(false);
-    let percentageScore = ref(0);
+    let overallScore = ref(0);
 
     const choiceColor = ref('');
 
@@ -100,7 +100,7 @@
 
     const loadQuestion = () => {
 
-        canClick = true;
+        oneClick = true;
         if (questions.length > questionCounter.value) {
             timer.value = 100;
             currentQuestion.value = questions[questionCounter.value];
@@ -133,7 +133,7 @@
 
     const onOptionClicked = (choice, item) => {
 
-        if (canClick) {
+        if (oneClick) {
             const optionID = item + 1;
             if (currentQuestion.value.answer == optionID) {
                 console.log("---CORRECT");
@@ -145,7 +145,7 @@
             }
 
             timer.value = 100;
-            canClick = false;
+            oneClick = false;
 
             clearSelected();
             //console.log(choice, item);
@@ -205,13 +205,13 @@
     };
 
     const onQuizEnd = function () {
-        percentageScore.value = (score.value / 100) * 100;
+        overallScore.value = (score.value / 100) * 100;
         timer.value = 0;
         endofQuiz.value = true;
     };
 
     const onQuizRestart = function () {
-        canClick = true;
+        oneClick = true;
         timer.value = 100;
         endofQuiz.value = false;
         questionCounter.value = 0;
@@ -223,7 +223,7 @@
             answer: 1,
             choices: []
         };
-        percentageScore.value = 0;
+        overallScore.value = 0;
         questions.value = [];
         fetchQuestionFromServer();
     };
@@ -247,7 +247,7 @@
             nbsp: " ",
             quot: '"',
             "#039": "'",
-            "&ldquo;": '",'
+            ldquo: '",'
         }
 
         return currentQuestion.value.question.replace(/&([^;]+);/gm, function (
