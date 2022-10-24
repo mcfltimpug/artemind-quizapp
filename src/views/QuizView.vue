@@ -161,12 +161,8 @@
             if (timer.value > 0) {
                 timer.value--;
             } else {
-                if (questionCounter > 10) {
-                    onQuizEnd();
-                } else {
                     onQuizEnd();
                     clearInterval(interVal);
-                }
             }
         }, 100)
     }
