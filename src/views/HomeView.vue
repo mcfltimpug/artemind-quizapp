@@ -15,13 +15,44 @@
         <p class="text-subtitle-2 mt-5 font-italic text-cyan">Be sure to read the '<span class="text-white">more
             info</span>' before playing!</p>
 
-        <v-text-field label="Player Name" solo dense class="" v-model="players.playerName"></v-text-field>
-        <v-btn @click="addPlayers" variant="tonal" size="large">Save Player</v-btn>
-          <v-card class="pa-4" v-for="player in players"  :key="player.playerName">
-                  <p class="text-center text-black"> {{ player.playerName }} : {{ player.playerScore }}</p>
-          </v-card>
-        <div class="d-flex justify-center mt-2 flex-column flex-sm-row">
+         <!-- <v-card class="pa-4 mb-2 d-flex justify-center align-center" v-for="user in players" :key="user.playerName">
+          <p class="text-center text-black"> {{ user.playerName }} : {{ user.playerScore }}</p>
+          <v-spacer></v-spacer>
+          <v-btn class="mx-2" fab dark small color="pink">
+            <v-icon dark>
+              mdi-heart
+            </v-icon>
+          </v-btn>
+        </v-card> -->
 
+        <!-- upload photo -->
+        <v-card-text class="d-flex justify-center">
+          <v-avatar rounded size="120" class="me-6">
+            <v-img :src="itemImage"></v-img>
+
+          </v-avatar>
+
+          <div>
+            <v-btn color="primary" class="me-3 mt-5" @click="$refs.refInputEl.click();">
+              <!-- <v-icon class="d-sm-none">
+                {{ uploadBtnTextMobile }}
+              </v-icon> -->
+              <span class="d-none d-sm-block">{{ uploadBtnText }}</span>
+            </v-btn>
+
+            <input ref="refInputEl" @change="uploadItemImage" type="file" accept=".jpeg,.png,.jpg,GIF" :hidden="true" />
+
+            <p class="text-sm mt-5">
+              Allowed JPG, GIF or PNG. Max size of 1MB
+            </p>
+          </div>
+        </v-card-text>
+
+        <v-text-field label="Player Name" solo dense class="" v-model="players.playerName"></v-text-field>
+        <v-text-field label="Player Score" solo dense class="" v-model="players.playerScore"></v-text-field>
+        <v-btn @click="addPlayers" variant="tonal" size="large">Save Player</v-btn> 
+
+        <div class="d-flex justify-center mt-2 flex-column flex-sm-row">
           <v-btn prepend-icon="mdi-palette" variant="outlined" size="x-large" class="mr-sm-4 mb-3" :loading="loading[1]"
             :disabled="loading[1]" @click="load(1)">
             Play Now
@@ -55,6 +86,30 @@
             </v-card>
           </v-dialog>
         </div>
+
+        <v-table fixed-header height="300px" color="black">
+          <thead>
+            <tr>
+              <th class="text-center">
+                Avatar
+              </th>
+              <th class="text-center">
+                Nickname
+              </th>
+              <th class="text-center">
+                Score
+              </th>
+            </tr>
+          </thead>
+          <tbody class="">
+            <tr v-for="player in players" :key="player.playerName">
+              <td><v-img :src="player.playerAvatar" width="80"></v-img>
+                </td>
+              <td>{{ player.playerName }}</td>
+              <td>{{ player.playerScore }}</td>
+            </tr>
+          </tbody>
+        </v-table>
       </v-col>
     </div>
   </div>
@@ -63,7 +118,8 @@
 <script setup>
   import {
     ref,
-    reactive, onMounted
+    reactive,
+    onMounted
   } from 'vue';
 
   import {
@@ -75,9 +131,17 @@
     collection,
     addDoc,
     getDocs,
-onSnapshot
+    onSnapshot
   } from "firebase/firestore";
-  import db from '@/firebase'
+  import db from '@/firebase';
+  import {
+    getStorage,
+    uploadBytes,
+    ref as ref_storage,
+    uploadBytesResumable,
+    getDownloadURL
+  } from "firebase/storage";
+  const itemImage = ref('https://assumptaclinic.com/wp-content/uploads/2022/10/default-assumpta.jpg');
 
   const loading = ref([]);
   const router = useRouter();
@@ -116,11 +180,16 @@ onSnapshot
 
   //store 
   const players = ref({
+    playerAvatar: itemImage.value,
     playerName: 'Tintin',
-    playerScore: 0,
+    playerScore: 5,
   })
 
+  //  uploadLoading: false,
+  //uploadBtnText: "Upload new photo",
 
+  const uploadLoading = ref(false);
+  const uploadBtnText = ref('Upload Avatar');
 
 
   function load(i) {
@@ -133,7 +202,9 @@ onSnapshot
 
 
   async function addPlayers() {
+
     await addDoc(collection(db, "players"), {
+      playerAvatar: itemImage.value,
       playerName: players.value.playerName,
       playerScore: players.value.playerScore
     })
@@ -142,21 +213,62 @@ onSnapshot
 
   async function showPlayers() {
     onSnapshot(collection(db, "players"), (snapshot) => {
-          let playerz = []
-          snapshot.forEach((doc) => {
-            playerz.push({
-              ...doc.data(),
-              id: doc.id
-            })
-          });
-          players.value = playerz;
-          console.log(players.value)
+      let playerz = []
+      snapshot.forEach((doc) => {
+        playerz.push({
+          ...doc.data(),
+          id: doc.id
         })
+      });
+      players.value = playerz;
+      //console.log(players.value)
+    })
   }
 
   onMounted(() => {
     showPlayers()
   })
+
+  function uploadItemImage(e) {
+    let file = e.target.files[0];
+    const storage = getStorage();
+    const storageRef = ref_storage(storage, 'avatars/' + file.name);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on('state_changed',
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        //this.uploadBtnText = "Uploading: " + progress.toFixed(0) + '%';
+        uploadBtnText.value = "Uploading: " + progress.toFixed(0) + '%';
+        //uploadBtnTextMobile.value = 'mdiProgressDownload';
+        //this.uploadBtnTextMobile = "Uploading: " + progress.toFixed(0) + '%';
+
+        switch (snapshot.state) {
+          case 'paused':
+            console.log('Upload is paused');
+            break;
+          case 'running':
+            console.log('Upload is running');
+            break;
+        }
+      },
+      (error) => {
+
+      },
+      () => {
+        uploadBtnText.value = 'Uploaded Successfully';
+
+        //uploadBtnTextMobile.value = 'mdiCheckCircle';
+        //this.uploadBtnTextMobile = 'Photo Uploaded';
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log('File available at', downloadURL);
+          itemImage.value = downloadURL;
+        });
+
+
+      }
+    );
+  }
 </script>
 
 <style scoped>
