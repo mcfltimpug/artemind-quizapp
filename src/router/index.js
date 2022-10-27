@@ -3,12 +3,18 @@ import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
 import QuizView from '../views/QuizView.vue'
 import DeveloperView from '../views/DeveloperView.vue'
+import RankingsView from '../views/RankingsView.vue'
 
 const routes = [
   {
     path: '/',
     name: 'home',
     component: HomeView
+  },
+  {
+    path: '/rankings',
+    name: 'rankings',
+    component: RankingsView
   },
   {
     path: '/about',

@@ -92,10 +92,10 @@ import { ref } from 'vue';
             title: 'Home',
             path: '/'
         },
-        // {
-        //     title: 'Quiz',
-        //     path: '/quiz'
-        // },
+        {
+            title: 'Rankings',
+            path: '/rankings'
+        },
         {
             title: 'About',
             path: '/about'
