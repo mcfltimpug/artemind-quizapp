@@ -1,15 +1,28 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { getAuth, onAuthStateChanged } from "firebase/auth"
 import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
 import QuizView from '../views/QuizView.vue'
 import DeveloperView from '../views/DeveloperView.vue'
 import RankingsView from '../views/RankingsView.vue'
+import RegisterUser from '../views/RegisterUser.vue'
+import SignInUser from '../views/SignInUser.vue'
 
 const routes = [
   {
     path: '/',
     name: 'home',
     component: HomeView
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: RegisterUser
+  },
+  {
+    path: '/signin',
+    name: 'signin',
+    component: SignInUser
   },
   {
     path: '/rankings',
@@ -24,7 +37,10 @@ const routes = [
   {
     path: '/quiz',
     name: 'quiz',
-    component: QuizView
+    component: QuizView,
+    meta: {
+      requiresAuth: true,
+    }
   },
   {
     path: '/developer',
@@ -37,5 +53,31 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+const getCurrentUser = () => {
+    return new Promise((resolve, reject) =>{
+      const removeLister = onAuthStateChanged(
+        getAuth(),
+        (user)=>{
+          removeLister();
+          resolve(user);
+        },
+        reject
+      )
+    })
+};
+ 
+router.beforeEach(async (to, from, next) => {
+    if(to.matched.some((record) => record.meta.requiresAuth)){
+      if(await getCurrentUser()){
+        next();
+      }else{
+        alert("You need to sign in first!");
+        next("/signin")
+      }
+    }else{
+      next();
+    }
+});
 
 export default router

@@ -213,7 +213,7 @@
         }
     }
 </script>
-<style>
+<style scoped>
     .screen-bg {
         background: linear-gradient(0deg, rgba(0, 0, 0, 0.40), rgba(0, 0, 0, 0.10)), url("https://assets-metrostyle.abs-cbn.com/prod/metrostyle/attachments/33d245f3-98d0-4ea9-b129-98db9a053429_vangoghalive-article-banner%20image.jpg");
         background-repeat: no-repeat;
