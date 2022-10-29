@@ -2,7 +2,9 @@
   <div class="screen-bg">
 
     <div class="d-flex justify-start align-center text-center text-white flex-column pt-md-16 h-screen pt-16">
-      <v-col cols="12" sm="9" md="8" lg="7" class="d-flex justify-md-center justify-start pt-16 justify-sm-center pt-md-16 flex-column ">
+      <v-col cols="12" sm="9" md="8" lg="7"
+        class="d-flex justify-md-center justify-start pt-16 justify-sm-center pt-md-16 flex-column ">
+        <p>Welcome, {{ playeruser }}!</p>
         <p class="font-italic text-cyan">"Go out and paint the stars." <span
             class="text-caption font-weight-thin">-Vincent Van
             Gogh 🌟</span></p>
@@ -13,8 +15,8 @@
           connoisseur? or are you just not sure?</p>
         <p class="text-subtitle-2 mt-5 font-italic text-cyan">Be sure to read the '<span class="text-white">more
             info</span>' before playing!</p>
-        <div class="d-flex justify-center mt-2 flex-column flex-sm-row">
 
+        <div class="d-flex justify-center mt-2 flex-column flex-sm-row">
           <v-btn prepend-icon="mdi-palette" variant="outlined" size="x-large" class="mr-sm-4 mb-3" :loading="loading[1]"
             :disabled="loading[1]" @click="load(1)">
             Play Now
@@ -35,18 +37,20 @@
                 <v-toolbar-title>🌟 More Information</v-toolbar-title>
               </v-toolbar>
               <div class="d-flex justify-center align-center h-screen flex-wrap overflow-auto">
-                <v-card v-for="mech in mechs" :key="mechs.desc"  height="200" color="black"
-                  class=" text-h5 pa-2 pa-md-5 ma-2 d-flex align-center justify-center flex-column" >
-                  <v-card variant="outlined" color="cyan" class="d-flex align-center justify-center flex-column pa-md-4 text-center pa-2">
+                <v-card v-for="mech in mechs" :key="mechs.desc" height="200" color="black"
+                  class=" text-h5 pa-2 pa-md-5 ma-2 d-flex align-center justify-center flex-column">
+                  <v-card variant="outlined" color="cyan"
+                    class="d-flex align-center justify-center flex-column pa-md-4 text-center pa-2">
                     <v-icon :icon="mech.icon" size="x-large" color="white"></v-icon>
-                  <p>{{ mech.desc }}</p>
+                    <p>{{ mech.desc }}</p>
                   </v-card>
-                  
+
                 </v-card>
               </div>
             </v-card>
           </v-dialog>
         </div>
+
       </v-col>
     </div>
   </div>
@@ -54,16 +58,42 @@
 
 <script setup>
   import {
-    ref
+    ref,
+    onMounted
   } from 'vue';
 
   import {
-    useRouter,
-    useRoute
-  } from 'vue-router'
+    useRouter
+  } from 'vue-router';
+
+  import {
+    getAuth,
+    onAuthStateChanged
+
+  } from '@firebase/auth';
+
   const loading = ref([]);
   const router = useRouter();
   const dialog = ref(false);
+  const playeruser = ref('player');
+  let auth;
+
+  onMounted(() => {
+    auth = getAuth();
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const displayName = user.displayName;
+
+        if (user.displayName !== null) {
+          playeruser.value = user.displayName;
+        } else {
+          playeruser.value = user.email;
+        }
+      }
+    })
+  });
+
+
   const mechs = ref([{
       desc: 'Everything about Art',
       icon: 'mdi-palette'
@@ -93,7 +123,6 @@
       icon: 'mdi-checkbox-marked-circle'
     },
 
-
   ])
 
   function load(i) {
@@ -102,8 +131,8 @@
       loading.value[i] = false;
       router.push('/quiz');
     }, 3000);
-
   }
+
 </script>
 
 <style scoped>
