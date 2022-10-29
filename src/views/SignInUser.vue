@@ -63,6 +63,13 @@
         GoogleAuthProvider,
         signInWithPopup
     } from '@firebase/auth';
+    import {
+        collection,
+        addDoc,
+        doc,
+        setDoc,getDoc
+    } from "firebase/firestore";
+    import db from '@/firebase';
 
     import router from '@/router';
 
@@ -111,9 +118,25 @@
 
     const googlesign = () => {
         const provider = new GoogleAuthProvider();
-        signInWithPopup(getAuth(), provider).then((result) => {
-            console.log(result.user);
-            router.push("/");
+        signInWithPopup(getAuth(), provider).then(async (result) => {
+            const user = result.user
+            console.log(user.uid);
+
+             const docRef = doc(db, "users", user.uid);
+             const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+              console.log("Account Already Exist")
+            } else {
+              console.log("No Account Yet. Creating...");
+               await setDoc(doc(db, "users", user.uid), {
+                email: user.email,
+                score: 0,
+            });
+            }
+
+             router.push("/");
+
         }).catch((error) => {
 
         });
