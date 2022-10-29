@@ -50,7 +50,7 @@
             </v-card>
           </v-dialog>
         </div>
-
+        <!-- <p class="text-subtitle-2 mt-5 font-italic text-cyan">Who are playing with you? See here!</p> -->
       </v-col>
     </div>
   </div>

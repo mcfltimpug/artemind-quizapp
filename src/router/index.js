@@ -4,7 +4,6 @@ import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
 import QuizView from '../views/QuizView.vue'
 import DeveloperView from '../views/DeveloperView.vue'
-import RankingsView from '../views/RankingsView.vue'
 import RegisterUser from '../views/RegisterUser.vue'
 import SignInUser from '../views/SignInUser.vue'
 
@@ -29,11 +28,6 @@ const routes = [
     meta: {
       ifAuth: true,
     }
-  },
-  {
-    path: '/rankings',
-    name: 'rankings',
-    component: RankingsView
   },
   {
     path: '/about',

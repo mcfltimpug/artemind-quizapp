@@ -76,6 +76,7 @@ const register = () => {
 
     await setDoc(doc(db, "users", user.uid), {
             email: user.email,
+            score: 0,
         })
     router.push('/')
     // ...

@@ -105,7 +105,7 @@
             timer.value = 100;
             currentQuestion.value = questions[questionCounter.value];
             //console.log("Current Question: " + currentQuestion.value.question)
-            //console.log('ANSWER:' + currentQuestion.value.answer)
+            console.log('ANSWER:' + currentQuestion.value.answer)
             questionCounter.value++;
         } else {
 

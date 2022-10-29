@@ -74,10 +74,6 @@ const isLoggedIn = ref(false);
             path: '/'
         },
         {
-            title: 'Rankings',
-            path: '/rankings'
-        },
-        {
             title: 'About',
             path: '/about'
         },
