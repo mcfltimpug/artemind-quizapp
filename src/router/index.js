@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, useRoute } from 'vue-router'
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
@@ -17,12 +17,18 @@ const routes = [
   {
     path: '/register',
     name: 'register',
-    component: RegisterUser
+    component: RegisterUser,
+    meta: {
+      ifAuth: true,
+    }
   },
   {
     path: '/signin',
     name: 'signin',
-    component: SignInUser
+    component: SignInUser,
+    meta: {
+      ifAuth: true,
+    }
   },
   {
     path: '/rankings',
@@ -70,14 +76,30 @@ const getCurrentUser = () => {
 router.beforeEach(async (to, from, next) => {
     if(to.matched.some((record) => record.meta.requiresAuth)){
       if(await getCurrentUser()){
-        next();
+        next()
       }else{
         alert("You need to sign in first!");
-        next("/signin")
+        next("/signin");
       }
+
     }else{
       next();
     }
 });
 
+router.beforeEach(async (to, from, next) => {
+  if(to.matched.some((record) => record.meta.ifAuth)){
+    if(await getCurrentUser()){
+      //next()
+     if(to.name == "signin" || to.name == "register"){
+          next("/");
+        }
+    }else{
+      next()
+    }
+
+  }else{
+    next();
+  }
+});
 export default router

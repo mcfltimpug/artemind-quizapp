@@ -47,17 +47,10 @@
                                 Sign In with Google
                             </v-btn>
                         </div>
-
                     </v-card>
-
-                </v-card>
-
-
+              </v-card>
             </v-col>
         </div>
-
-
-
     </div>
 </template>
 <script setup>

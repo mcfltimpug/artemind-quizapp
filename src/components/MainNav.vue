@@ -10,7 +10,7 @@
                     <v-list-item-title class="">{{ item.title }}</v-list-item-title>
 
                 </v-list-item>
-                <v-list-item  class="hidden-sm-and-down">
+                <v-list-item  class="hidden-sm-and-down" v-if="!isLoggedIn">
                     <v-btn  color="yellow" @click="goToSignIn">Sign In</v-btn>
                 </v-list-item>
                 <v-list-item v-if="isLoggedIn" class="hidden-sm-and-down">
