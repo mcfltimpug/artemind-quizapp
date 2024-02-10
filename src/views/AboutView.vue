@@ -58,7 +58,7 @@
     {
       title: '61-80 points',
       scoring: '“There are no mistakes, just happy accidents.” -Bob ross',
-      artist: 'https://thefanmail.com/wp-content/uploads/2021/11/bb5.png'
+      artist: 'https://m.media-amazon.com/images/M/MV5BNzg0MWEyZjItOTZlMi00YmRjLWEyYzctODIwMDU0OThiMzNkXkEyXkFqcGdeQXVyNjUxMjc1OTM@._V1_QL75_UY207_CR8,0,140,207_.jpg'
     },
     {
       title: '81-100 points',
@@ -69,7 +69,7 @@
 </script>
 <style scoped>
   .screen-bg {
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.30), rgba(0, 0, 0, 0.60)), url("https://themarketherald.com.au/fancy/wp-content/uploads/2022/04/vangoghalive-supplied2-1920x1080-1.jpeg");
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.30), rgba(0, 0, 0, 0.60)), url("https://images.squarespace-cdn.com/content/v1/5f10a7f0e4041a480cbbf0be/1629990578825-9ECITBHHWNMCGVVVQ6CU/unnamed.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
